@@ -1,18 +1,17 @@
-# This is a sample Python script.
+import discord
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+client = discord.Client()
 
+@client.event
+async def on_ready():
+    print('We have logged in as {0.user}'.format(client))
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
 
+    if message.content.startswith('$hello'):
+        await message.channel.send('Hello!')
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('Elliott')
-    print_hi('Angus')
-    print_hi('angus sucks penis')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+client.run('ODA0ODM3MTE4MzI4NzAwOTU4.YBSI-g.i5lGSf-2Q1avLhbdbVecVwDf7d0')
