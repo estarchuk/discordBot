@@ -14,4 +14,5 @@ async def on_message(message):
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
 
-client.run('ODA0ODM3MTE4MzI4NzAwOTU4.YBSI-g.i5lGSf-2Q1avLhbdbVecVwDf7d0')
+# DO NOT LEAVE THE TOKEN IN. DELETE BEFORE EVERY PUSH
+client.run('')
