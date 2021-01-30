@@ -2,7 +2,8 @@ import discord
 import Commands
 
 client = discord.Client()
-
+file = open("C:\\Discord bot code\\bot code.txt", "r")
+token = file.read()
 
 
 @client.event
@@ -22,4 +23,4 @@ async def on_message(message):
 
 
 # DO NOT LEAVE THE TOKEN IN. DELETE BEFORE EVERY PUSH
-client.run('ODA0ODM3MTE4MzI4NzAwOTU4.YBSI-g.PIMoPox6iAwjTMEKi1l39cNHbqw')
+client.run(token)
