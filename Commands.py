@@ -10,11 +10,9 @@ async def commands(message):
 
     if any(word in msg for word in bad_words):
         await message.channel.send("Watch your mouth!")
-
-    if any(word in msg for word in gaming):
+    elif any(word in msg for word in gaming):
         await message.channel.send("gaming")
-
-    if any(word in msg for word in im):
+    elif any(word in msg for word in im):
         msg = msg.split(" ")
         msg.pop(0)
         msg = " ".join(msg)
