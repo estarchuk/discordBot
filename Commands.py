@@ -2,8 +2,8 @@ import string
 
 import requests
 
-bad_words = ["fuck", "shit", "ass"]
-gaming = ["gaming", "minecraft", "car soccer", "valorant"]
+bad_words = ["fuck", "shit", "ass", 'bitch', 'cuck', 'fag', 'cunt']
+gaming = ["gaming", "minecraft", "car soccer", "valorant", 'game']
 im = ['im', 'Im', 'I\'m']
 
 async def commands(message):
