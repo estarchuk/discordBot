@@ -20,7 +20,4 @@ async def on_message(message):
     #and will not return anything
     await Commands.commands(message)
 
-
-
-# DO NOT LEAVE THE TOKEN IN. DELETE BEFORE EVERY PUSH
 client.run(token)
