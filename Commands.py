@@ -4,6 +4,7 @@ import requests
 
 bad_words = ["fuck", "shit", "ass"]
 gaming = ["gaming", "minecraft", "car soccer", "valorant"]
+im = ['im', 'Im', 'I\'m']
 
 async def commands(message):
 
@@ -14,6 +15,13 @@ async def commands(message):
 
     if any(word in msg for word in gaming):
         await message.channel.send("gaming")
+
+    if any(word in msg for word in im):
+        msg = msg.split(" ")
+        msg.pop(0)
+        msg = " ".join(msg)
+        await message.channel.send("Hello " + msg + ", i'm Dad")
+
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
