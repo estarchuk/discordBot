@@ -4,7 +4,7 @@ import requests
 
 bad_words = ["fuck", "shit", "ass", 'bitch', 'cuck', 'fag', 'cunt']
 gaming = ["gaming", "minecraft", "car soccer", "valorant", 'game']
-im = ['im', 'Im', 'I\'m']
+im = ['im', 'Im', 'I\'m', 'i\'m']
 
 async def commands(message):
 
