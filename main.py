@@ -3,7 +3,7 @@ import Commands
 
 client = discord.Client()
 file = open("C:\\Discord bot code\\bot code.txt", "r")
-token = file.read()
+securityToken = file.read()
 
 
 @client.event
@@ -20,4 +20,5 @@ async def on_message(message):
     #and will not return anything
     await Commands.commands(message)
 
-client.run(token)
+#the securiy token is in a file on your C drive or else you can't run the bot
+client.run(securityToken)
