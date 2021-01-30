@@ -22,4 +22,4 @@ async def on_message(message):
 
 
 # DO NOT LEAVE THE TOKEN IN. DELETE BEFORE EVERY PUSH
-client.run('')
+client.run('ODA0ODM3MTE4MzI4NzAwOTU4.YBSI-g.BG239854xFi-mEjtobAN85syBjQ')

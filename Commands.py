@@ -1,7 +1,18 @@
-import requests, json
+import requests
 
+bad_words = ["fuck", "shit", "ass"]
+gaming = ["gaming", "minecraft", "car soccer", "valorant"]
 
 async def commands(message):
+
+    msg = message.content
+
+    if any(word in msg for word in bad_words):
+        await message.channel.send("Watch your mouth!")
+
+    if any(word in msg for word in gaming):
+        await message.channel.send("gaming")
+
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
 
