@@ -1,4 +1,4 @@
-import requests, json
+import requests
 
 
 async def commands(message):
@@ -6,7 +6,13 @@ async def commands(message):
         await message.channel.send('Hello!')
 
     if message.content.startswith('$temp'):
-        CITY = message.content[1]
+        SPLIT = message.content.split(" ", 1)
+        CITY = SPLIT[1]
+        if CITY == 'Victoria':
+            CITY = 'Victoria, CA'
+        if CITY == 'Grand Forks':
+            CITY = 'Grand Forks, CA'
+        await message.channel.send(CITY)
         BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
         API_KEY = 'a79339a9332f239b64d3d0d20e57fe91'
         URL = BASE_URL + 'q=' + CITY + "&appid=" + API_KEY
@@ -17,4 +23,4 @@ async def commands(message):
             main = data['main']
             value = '{0:.2f}'.format(main['temp'] - 273.15)
 
-        await message.channel.send('the temperature today in victoria is: ' + value)
+        await message.channel.send('the temperature today in ' + CITY + ' is: ' + value)
