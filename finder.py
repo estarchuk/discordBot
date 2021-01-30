@@ -2,21 +2,31 @@ import requests
 
 total = []
 dictionary = {}
-bannedList = []
+stonkNames = []
+URL = ''
 
-threshold = 5000
+threshold = 10000
 
 
-def ping():
+async def ping():
+    f = open('keys.txt', 'w')
+    for item in f:
+        print(item)
+        await query.channel.send('Yo check this shit out!' + item + 'is makin\' money moves')
+    f.close()
+
+
+def addToFile():
+    f = open('keys.txt', 'a')
     for a in dictionary.keys():
         if dictionary.get(a) > threshold:
-            # Ping in discord here
-            print('PING ' + a)
+            f.write(a)
+            print(a)
             dictionary.update({a: 0})
+    f.close()
 
 
 def checkPing(totals):
-    ping()
     for thing in totals:
         for other in totals:
             if thing == other:
@@ -27,21 +37,21 @@ def checkPing(totals):
 
 
 def updateBannedList():
-    global bannedList
-    f = open('bannedList.txt', 'r')
-    bannedList = []
+    global stonkNames
+    f = open('stonkNames.txt', 'r')
+    stonkNames = []
     temp = ''
     for word in f:
         temp = temp + word
-    bannedList = temp.split()
+    stonkNames = temp.splitlines()
     f.close()
 
 
 def banned(w):
-    for item in bannedList:
+    for item in stonkNames:
         if w == item:
-            return False
-    return True
+            return True
+    return False
 
 
 def removeSpecials(w):
@@ -52,13 +62,51 @@ def removeSpecials(w):
     return new_word
 
 
-def main():
+def formatURL(strg):
+    global URL
+    if strg[1] == 's':
+        toggle = 'submission'
+    elif strg[1] == 'c':
+        toggle = 'comment'
+    else:
+        raise Exception('Search destination not specified please use s or c.')
+
+    subreddit = strg[2]
+    searchterm = strg[3]
+
+    URL = 'https://api.pushshift.io/reddit/search/' + toggle + '/?q=' + searchterm + '/?subreddit=' + subreddit
+
+    try:
+        request = requests.get(URL)
+    except:
+        print(URL)
+        return
+    if request.status_code == 200:
+        findStonks(0)
+    else:
+        a = 1
+
+
+def parseMessage(m):
+    global query
+    query = m
+    s = query.content.split()
+    if s[1] == 'update':
+        findStonks(1)
+    else:
+        formatURL(s)
+
+
+def findStonks(input):
     while True:
         # Uses the api's website to search reddit for posts
-        URL = 'https://api.pushshift.io/reddit/search/submission/?subreddit=wallstreetbets'
+        if input == 0:
+            global URL
+        else:
+            URL = 'https://api.pushshift.io/reddit/search/submission/?subreddit=wallstreetbets'
+
         page = requests.get(URL)
 
-        counter = 0
         string = ''
         for word in page.text:
             string = string + word
@@ -79,7 +127,7 @@ def main():
                 continue
             if not counter1 == 0 and counter2 == 0:
                 word = removeSpecials(word)
-                if word.isupper() and len(word) <= 4 and banned(word):
+                if word.isupper() and banned(word):
                     stonks.append(word)
                 continue
             if not counter2 == 0:
@@ -90,7 +138,3 @@ def main():
             total.append(item)
 
         checkPing(total)
-
-
-if __name__ == "__main__":
-    main()

@@ -1,13 +1,13 @@
 import string
-
+import finder
 import requests
 
 bad_words = ["fuck", "shit", "ass", 'bitch', 'cuck', 'fag', 'cunt']
 gaming = ["gaming", "minecraft", "car soccer", "valorant", 'game']
 im = ['im', 'Im', 'I\'m']
 
-async def commands(message):
 
+async def commands(message):
     msg = message.content
 
     if any(word in msg for word in bad_words):
@@ -19,7 +19,6 @@ async def commands(message):
         msg.pop(0)
         msg = " ".join(msg)
         await message.channel.send("Hello " + msg + ", i'm Dad")
-
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
@@ -45,4 +44,9 @@ async def commands(message):
             main = data['main']
             value = '{0:.2f}'.format(main['temp'] - 273.15)
 
-        await message.channel.send('The current condition in ' + CITY + ' is ' + description + ' and the temperature is ' + value)
+        await message.channel.send(
+            'The current condition in ' + CITY + ' is ' + description + ' and the temperature is ' + value)
+
+    if message.content.startswith('$stonk'):
+        finder.parseMessage(message)
+        await finder.ping()
