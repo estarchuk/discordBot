@@ -2,8 +2,10 @@ import discord
 import botCommands
 
 client = discord.Client()
+
+#get the file token to run the bot off c drive
 file = open("C:\\Discord bot code\\bot code.txt", "r")
-token = file.read()
+SecurityTokenForBotCode = file.read()
 
 
 @client.event
@@ -20,4 +22,4 @@ async def on_message(message):
     #and will not return anything
     await botCommands.commands(message)
 
-client.run(token)
+client.run(SecurityTokenForBotCode)
