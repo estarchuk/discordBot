@@ -34,6 +34,7 @@ async def on_message(message):
 
 @tasks.loop(hours=1)
 async def change_status():
+    ranking = finder.get()
     await botCommands.pingUsers(client)
 
 
