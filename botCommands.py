@@ -47,34 +47,36 @@ class BotCommands(commands.Cog):
         await ctx.send(
             'The current condition in ' + CITY + ' is ' + description + ' and the temperature is ' + value)
 
-
-#async def commands(message):
-#    msg = message.content
-
-#    if message.content.startswith('$hello'):
-#        await message.channel.send('Hello!')
-
-#    await AutoBotResponseToMessages(message, msg)
-
-#    if message.content.startswith('$stonk'):
-#        finder.parseMessage(message)
-#        await finder.ping()
+    @commands.command()
+    async def stonk(self, ctx):
+        finder.parseMessage(ctx)
+        await finder.ping()
 
 
 
-#async def AutoBotResponseToMessages(message, msg):
+async def commands(message):
+    msg = message.content
+
+    if message.content.startswith('$hello'):
+        await message.channel.send('Hello!')
+
+    await AutoBotResponseToMessages(message, msg)
+
+
+
+async def AutoBotResponseToMessages(message, msg):
     # respond to swear words
-#    if any(word in msg.lower() for word in bad_words):
-#        await message.channel.send("Watch your mouth!")
+    if any(word in msg.lower() for word in bad_words):
+        await message.channel.send("Watch your mouth!")
     # no swears so respond to gaming
-#    elif any(word in msg.lower() for word in gaming):
-#        await message.channel.send("gaming")
+    elif any(word in msg.lower() for word in gaming):
+        await message.channel.send("gaming")
     # no gaming so respond if says i'm
-#    elif any(word in msg.lower() for word in im):
-#        msg = msg.split(" ")
-#        msg.pop(0)
-#        msg = " ".join(msg)
-#        await message.channel.send("Hello " + msg + ", i'm Dad")
+    elif any(word in msg.lower() for word in im):
+        msg = msg.split(" ")
+        msg.pop(0)
+        msg = " ".join(msg)
+        await message.channel.send("Hello " + msg + ", i'm Dad")
 
 
 def setup(bot):

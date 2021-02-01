@@ -1,4 +1,5 @@
 from discord.ext import commands
+import botCommands
 
 bot = commands.Bot(command_prefix='$')
 
@@ -15,10 +16,13 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    if message.author == bot.user:
+        return
 
     #This await is needed to call to the commands file
     #The commands file will contain all of the possible keyword commands
     #and will not return anything
+    await botCommands.commands(message)
     await bot.process_commands(message)
 
 
