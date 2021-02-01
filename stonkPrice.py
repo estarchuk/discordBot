@@ -3,6 +3,12 @@ import requests as req
 import json
 from forex_python.converter import CurrencyRates
 
+'''
+This is the stonk price file where the following happens
+-get the specified stock
+-convert the price from USD to CAD as needed
+'''
+
 # CRYTPO KEY 45ebf01e-f601-420a-901d-9e016a0f98ef
 url = 'https://pro-api.coinmarketcap.com/v1/tools/price-conversion'
 headers = {

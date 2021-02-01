@@ -1,5 +1,16 @@
 import requests
 
+'''
+This is the finder file where the following happens
+-removes the duplicates from specified file
+-pings the user if stocks have been mentioned in reddit a certain number of times
+-adds keywords to the specified files
+-transfers from dictionary that holds kv pairs to just the key
+-
+'''
+#TODO
+# Finish this main comment block above
+
 # Define global variables as needed
 total = []
 dictionary = {}

@@ -4,6 +4,15 @@ import requests
 import stonkPrice
 import json
 
+'''
+This is the bot commands file where the following happens
+-respond hello and you are welcome as requested by the user
+-auto respond to key words defined in the global lists
+-get the temperature and weather conditions for the city specified by user
+-respond to the stonk keyword with the stock that the users should look at
+-respond to the price keyword with the price of the stock that the user specifies
+-ping all the users in the bot pings channel 
+'''
 
 bad_words = ["fuck", "shit", "ass", 'bitch', 'cuck', 'fag', 'cunt']
 gaming = ["gaming", "minecraft", "car soccer", "valorant", 'game']
