@@ -4,12 +4,13 @@ import requests
 import stonkPrice
 import json
 
+
 bad_words = ["fuck", "shit", "ass", 'bitch', 'cuck', 'fag', 'cunt']
 gaming = ["gaming", "minecraft", "car soccer", "valorant", 'game']
 im = ['im', 'i\'m']
 
 
-async def commands(message):
+async def commands(message, client):
     msg = message.content
 
     if message.content.startswith('$hello'):
@@ -47,7 +48,9 @@ async def commands(message):
         )
 
     if message.content.startswith('$ping'):
-        await message.channel.send('yo @everyone, check out this stock, **insert stock here** , making these money moves')
+        channel = client.get_channel(805601797422579742)
+        await channel.send("yo @everyone, check out this stock, **insert stock here** , making these money moves")
+
 
 
 
