@@ -1,4 +1,6 @@
 import string
+from time import sleep
+
 import finder
 import requests
 import stonkPrice
@@ -30,6 +32,16 @@ async def commands(message, client):
     await AutoBotResponseToMessages(message, msg)
 
     await GetTempForSpecifiedLocation(message)
+
+    if message.content.startswith('$help'):
+        await message.channel.send('This bot primarily is idle and will inform you every hour on stock pricing.')
+        sleep(2)
+        await message.channel.send('This bot will also auto respond to key words in messages if it detects them.')
+        sleep(2)
+        await message.channel.send('here are the key commands you will need to know')
+        await message.channel.send('$stonk **stonk you want info on**')
+        await message.channel.send('$price **stock you are looking for**')
+        await message.channel.send('$temp **city you are interested in**')
 
     if message.content.startswith('$stonk'):
         file = finder.parseMessage(message)
@@ -63,11 +75,11 @@ async def commands(message, client):
             'The current price of ' + name + ' is ' + price + ' ' + currency
         )
 
-    if message.content.startswith('$ping'):
-        channel = client.get_channel(805601797422579742)
-        await channel.send("yo @everyone, check out this stock, **insert stock here** , making these money moves")
 
 
+async def pingUsers(client):
+    channel = client.get_channel(805601797422579742)
+    await channel.send("yo @everyone, check out this stock, **insert stock here** , making these money moves")
 
 
 async def GetTempForSpecifiedLocation(message):
