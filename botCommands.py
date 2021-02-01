@@ -46,6 +46,10 @@ async def commands(message):
             'The current price of ' + name + ' is ' + price + ' ' + currency
         )
 
+    if message.content.startswith('$ping'):
+        await message.channel.send('yo @everyone, check out this stock, **insert stock here** , making these money moves')
+
+
 
 async def GetTempForSpecifiedLocation(message):
     if message.content.startswith('$temp'):
