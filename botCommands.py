@@ -15,6 +15,8 @@ async def commands(message, client):
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
+    if message.content.startswith('thanks stonks'):
+        await message.channel.send('You are very welcome')
 
     await AutoBotResponseToMessages(message, msg)
 
