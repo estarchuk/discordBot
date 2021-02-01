@@ -1,6 +1,4 @@
-from discord.ext import tasks
-
-import discord
+from discord.ext import commands, tasks
 import botCommands
 
 '''
@@ -10,34 +8,35 @@ This is the main file where the following happens
 -wait for the client messages and pass into the commands file as needed
 '''
 
-client = discord.Client()
+bot = commands.Bot(command_prefix='$')
 
 #get the file token to run the bot off c drive
 file = open("C:\\Discord bot code\\bot code.txt", "r")
 SecurityTokenForBotCode = file.read()
 
+bot.remove_command('help')
 
-@client.event
+bot.load_extension("stockCog")
+bot.load_extension("botCommands")
+
+@bot.event
 async def on_ready():
     change_status.start()
-    print('We have logged in as {0.user}'.format(client))
+    print('We have logged in as {0.user}'.format(bot))
 
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == bot.user:
         return
 
     #This await is needed to call to the commands file
     #The commands file will contain all of the possible keyword commands
     #and will not return anything
-    await botCommands.commands(message, client)
+    await botCommands.commands(message)
+    await bot.process_commands(message)
 
 @tasks.loop(hours=1)
 async def change_status():
-    await botCommands.pingUsers(client)
+    await botCommands.pingUsers(bot)
 
-
-
-
-
-client.run(SecurityTokenForBotCode)
+bot.run(SecurityTokenForBotCode)
