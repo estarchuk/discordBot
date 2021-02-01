@@ -1,4 +1,4 @@
-from discord.ext import commands
+from discord.ext import commands, tasks
 import botCommands
 
 '''
@@ -14,11 +14,14 @@ bot = commands.Bot(command_prefix='$')
 file = open("C:\\Discord bot code\\bot code.txt", "r")
 SecurityTokenForBotCode = file.read()
 
+bot.remove_command('help')
+
 bot.load_extension("stockCog")
 bot.load_extension("botCommands")
 
 @bot.event
 async def on_ready():
+    change_status.start()
     print('We have logged in as {0.user}'.format(bot))
 
 @bot.event
@@ -32,5 +35,8 @@ async def on_message(message):
     await botCommands.commands(message)
     await bot.process_commands(message)
 
+@tasks.loop(hours=1)
+async def change_status():
+    await botCommands.pingUsers(bot)
 
 bot.run(SecurityTokenForBotCode)

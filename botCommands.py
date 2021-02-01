@@ -1,8 +1,12 @@
 import string
+from asyncio import sleep
+
+import discord
+
 import finder
 import requests
 import stonkPrice
-import json
+from discord.ext import commands
 
 '''
 This is the bot commands file where the following happens
@@ -19,65 +23,13 @@ gaming = ["gaming", "minecraft", "car soccer", "valorant", 'game']
 im = ['im', 'i\'m']
 
 
+
 class BotCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-async def commands(message, client):
-    msg = message.content
-
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
-    if message.content.startswith('thanks stonks'):
-        await message.channel.send('You are very welcome')
 
     @commands.command(name='weather')
     async def GetTempForSpecifiedLocation(self, ctx, *, city):
-    await AutoBotResponseToMessages(message, msg)
-
-    await GetTempForSpecifiedLocation(message)
-
-    if message.content.startswith('$stonk'):
-        file = finder.parseMessage(message)
-        f = open(file, 'r')
-        for item in f:
-            x = item.split()
-            for i in x:
-                await message.channel.send('Yo check this shit out! ' + i + ' be makin money moves.')
-
-
-    if message.content.startswith('$price'):
-
-        split = message.content.split(" ")
-        symbol = split[1].upper()
-        stonk = stonkPrice.getStonk(symbol)
-
-        if stonk[1]:
-            full = stonk[0]
-            data = full['data']
-            quote = data['quote']
-            name = data['name']
-            local_currency = quote['CAD']
-            price = '{:.2f}'.format(local_currency['price'])
-            currency = 'CAD'
-        else:
-            price = '{:.2f}'.format(stonk[0])
-            name = symbol
-            currency = 'USD'
-
-        await message.channel.send(
-            'The current price of ' + name + ' is ' + price + ' ' + currency
-        )
-
-    if message.content.startswith('$ping'):
-        channel = client.get_channel(805601797422579742)
-        await channel.send("yo @everyone, check out this stock, **insert stock here** , making these money moves")
-
-
-
-
-async def GetTempForSpecifiedLocation(message):
-    if message.content.startswith('$temp'):
-
         # First set the city name to a capitalized first letter
         CITY = city
         CITY = string.capwords(CITY)
@@ -107,12 +59,29 @@ async def GetTempForSpecifiedLocation(message):
 
         # print the formatted message out
         await ctx.send(
-            'The current condition in ' + CITY + ' is ' + description + ' and the temperature is ' + value)
+            'The current condition in ' + CITY + ' is ' + description + ' and the temperature is ' + value
+        )
 
     @commands.command()
     async def stonk(self, ctx):
         finder.parseMessage(ctx)
         await finder.ping()
+
+    @commands.group(invoke_without_command=True)
+    async def help(self, ctx):
+        em = discord.Embed(title='Help', description='Use $help <command> for help with a command')
+        #em.add_field(name='1', value='This bot will also auto respond to key words in messages if it detects them.', inline=False)
+        #em.add_field(name='2', value='here are the key commands you will need to know', inline=False)
+        #em.add_field(name='3', value='$stonk **stonk you want info on**')
+        #em.add_field(name='4', value='$price **stock you are looking for**')
+        #em.add_field(name='5', value='$weather **city you are interested in**')
+        await ctx.send(embed=em)
+
+    @help.command()
+    async def weather(self, ctx):
+        em = discord.Embed(title='$weather', description='Usage: $weather <city> to get the weather in a city')
+        await ctx.send(embed=em)
+
 
 
 
@@ -121,9 +90,10 @@ async def commands(message):
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
+    if message.content.startswith('thanks stonks'):
+        await message.channel.send('You are very welcome')
 
     await AutoBotResponseToMessages(message, msg)
-
 
 
 async def AutoBotResponseToMessages(message, msg):
@@ -139,6 +109,11 @@ async def AutoBotResponseToMessages(message, msg):
         msg.pop(0)
         msg = " ".join(msg)
         await message.channel.send("Hello " + msg + ", i'm Dad")
+
+
+async def pingUsers(bot):
+    channel = bot.get_channel(805601797422579742)
+    await channel.send("yo @everyone, check out this stock, **insert stock here** , making these money moves")
 
 
 def setup(bot):
