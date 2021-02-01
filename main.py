@@ -1,3 +1,5 @@
+from discord.ext import tasks
+
 import discord
 import botCommands
 
@@ -17,6 +19,7 @@ SecurityTokenForBotCode = file.read()
 
 @client.event
 async def on_ready():
+    change_status.start()
     print('We have logged in as {0.user}'.format(client))
 
 @client.event
@@ -28,6 +31,10 @@ async def on_message(message):
     #The commands file will contain all of the possible keyword commands
     #and will not return anything
     await botCommands.commands(message, client)
+
+@tasks.loop(hours=1)
+async def change_status():
+    await botCommands.pingUsers(client)
 
 
 
