@@ -1,6 +1,13 @@
 from discord.ext import commands
 import botCommands
 
+'''
+This is the main file where the following happens
+-verify the token stored on the useres c drive
+-log on as the bot
+-wait for the client messages and pass into the commands file as needed
+'''
+
 bot = commands.Bot(command_prefix='$')
 
 #get the file token to run the bot off c drive

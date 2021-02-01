@@ -1,31 +1,61 @@
 import requests
 
+'''
+This is the finder file where the following happens
+-removes the duplicates from specified file
+-pings the user if stocks have been mentioned in reddit a certain number of times
+-adds keywords to the specified files
+-transfers from dictionary that holds kv pairs to just the key
+-
+'''
+#TODO
+# Finish this main comment block above
+
+# Define global variables as needed
 total = []
 dictionary = {}
 stonkNames = []
 URL = ''
+returnToggle = 0
 
+# Threshold for the amount of instances needed for a ping
 threshold = 10000
 
 
-async def ping():
-    f = open('keys.txt', 'w')
+def removeDupes(filename):
+    f = open(filename, '+')
     for item in f:
-        print(item)
-        await query.channel.send('Yo check this shit out!' + item + 'is makin\' money moves')
+        x = item.split()
+        for i in x:
+            for j in x:
+                if i == j:
+                    j = ''
     f.close()
 
 
+# Method to ping in discord
+def ping():
+    f = open('keys.txt', 'r')
+    for item in f:
+        print(item)
+    f.close()
+    return 'keys.txt'
+
+
+# Method to check for keywords as they've been found
 def addToFile():
     f = open('keys.txt', 'a')
     for a in dictionary.keys():
         if dictionary.get(a) > threshold:
+            global returnToggle
+            returnToggle = 1
             f.write(a)
-            print(a)
+            # print(a)
             dictionary.update({a: 0})
     f.close()
 
 
+# Method to transfer from dictionary that holds kv pairs to just the key
 def checkPing(totals):
     for thing in totals:
         for other in totals:
@@ -34,8 +64,10 @@ def checkPing(totals):
                     dictionary.update({thing: 2})
                 else:
                     dictionary.update({thing: dictionary.get(thing) + 1})
+    addToFile()
 
 
+# This method update the variable banned list with all the names of the stocks for easy comparison
 def updateBannedList():
     global stonkNames
     f = open('stonkNames.txt', 'r')
@@ -47,6 +79,7 @@ def updateBannedList():
     f.close()
 
 
+# This method checks if the words found are stock names or not
 def banned(w):
     for item in stonkNames:
         if w == item:
@@ -54,6 +87,7 @@ def banned(w):
     return False
 
 
+# this method removes the special characters from a string
 def removeSpecials(w):
     new_word = ''
     for char in w:
@@ -62,6 +96,7 @@ def removeSpecials(w):
     return new_word
 
 
+# this method formats the URL when searching for specific things
 def formatURL(strg):
     global URL
     if strg[1] == 's':
@@ -84,10 +119,13 @@ def formatURL(strg):
     if request.status_code == 200:
         findStonks(0)
     else:
-        a = 1
+        print('Website not active.')
+        return
 
 
+# This method checks if the message is just a general check or something else
 def parseMessage(m):
+    open('keys.txt', 'w').close()
     global query
     query = m
     s = query.content.split()
@@ -95,12 +133,15 @@ def parseMessage(m):
         findStonks(1)
     else:
         formatURL(s)
+    x = ping()
+    return x
 
 
-def findStonks(input):
+# This method uses the pushshift api to check for the amount of uses of a keyword in a specific time
+def findStonks(inp):
     while True:
         # Uses the api's website to search reddit for posts
-        if input == 0:
+        if inp == 0:
             global URL
         else:
             URL = 'https://api.pushshift.io/reddit/search/submission/?subreddit=wallstreetbets'
@@ -134,7 +175,13 @@ def findStonks(input):
                 counter1 = 0
                 counter2 = 0
 
+        f1 = open('keys.txt', 'a')
         for item in stonks:
+            f1.write(item + ' ')
             total.append(item)
+        f1.close()
 
         checkPing(total)
+
+        if returnToggle > 0:
+            return

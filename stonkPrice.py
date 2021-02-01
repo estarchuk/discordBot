@@ -1,6 +1,13 @@
 from yahoo_fin import stock_info
 import requests as req
 import json
+from forex_python.converter import CurrencyRates
+
+'''
+This is the stonk price file where the following happens
+-get the specified stock
+-convert the price from USD to CAD as needed
+'''
 
 # CRYTPO KEY 45ebf01e-f601-420a-901d-9e016a0f98ef
 url = 'https://pro-api.coinmarketcap.com/v1/tools/price-conversion'
@@ -33,8 +40,11 @@ def getStock(s):
 
     for symbol in symbols:
         if symbol == s:
-            price = stock_info.get_live_price(s)
+            price = priceChangeUSDtoCAD(stock_info.get_live_price(s))
             print(price)
             return price
 
+def priceChangeUSDtoCAD(amount):
+    amount = amount.convert('USD', 'CAD', amount)
+    return amount
 
