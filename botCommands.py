@@ -23,8 +23,13 @@ async def commands(message, client):
     await GetTempForSpecifiedLocation(message)
 
     if message.content.startswith('$stonk'):
-        finder.parseMessage(message)
-        await finder.ping()
+        file = finder.parseMessage(message)
+        f = open(file, 'r')
+        for item in f:
+            x = item.split()
+            for i in x:
+                await message.channel.send('Yo check this shit out! ' + i + ' be makin money moves.')
+
 
     if message.content.startswith('$price'):
 
