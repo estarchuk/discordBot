@@ -15,7 +15,18 @@ headers = {
 session = req.Session()
 session.headers.update(headers)
 
-def getStonk(s):
+def getCrypto(s):
+    parameters = {
+        'amount': '1',
+        'symbol': s,
+        'convert': 'CAD'
+    }
+    response = session.get(url, params=parameters)
+    data = json.loads(response.text)
+    return data
+
+
+def getStock(s):
 
     f = open('stonkNames.txt', 'r')
     symbols = f.read().splitlines()
@@ -23,20 +34,7 @@ def getStonk(s):
     for symbol in symbols:
         if symbol == s:
             price = stock_info.get_live_price(s)
-            crypto = False
-            return [price, crypto]
-
-    parameters = {
-        'amount': '1',
-        'symbol': s,
-        'convert': 'CAD'
-    }
-
-    response = session.get(url, params=parameters)
-    data = json.loads(response.text)
-    crypto = True
-    return [data, crypto]
-
-
+            print(price)
+            return price
 
 
