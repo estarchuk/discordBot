@@ -1,6 +1,7 @@
 from yahoo_fin import stock_info
 import requests as req
 import json
+from forex_python.converter import CurrencyRates
 
 # CRYTPO KEY 45ebf01e-f601-420a-901d-9e016a0f98ef
 url = 'https://pro-api.coinmarketcap.com/v1/tools/price-conversion'
@@ -9,7 +10,7 @@ headers = {
     'X-CMC_PRO_API_KEY': '45ebf01e-f601-420a-901d-9e016a0f98ef',
 }
 
-# TODO: Automatic currency conversion from USD to CAD
+
 # Also needs to grab Ethereum from Crypto exchange, not yahoo-fin
 
 session = req.Session()
@@ -22,7 +23,7 @@ def getStonk(s):
 
     for symbol in symbols:
         if symbol == s:
-            price = stock_info.get_live_price(s)
+            price = priceChangeUSDtoCAD(stock_info.get_live_price(s))
             crypto = False
             return [price, crypto]
 
@@ -38,5 +39,7 @@ def getStonk(s):
     return [data, crypto]
 
 
-
+def priceChangeUSDtoCAD(amount):
+    amount = amount.convert('USD', 'CAD', amount)
+    return amount
 

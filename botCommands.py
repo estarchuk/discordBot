@@ -4,16 +4,19 @@ import requests
 import stonkPrice
 import json
 
+
 bad_words = ["fuck", "shit", "ass", 'bitch', 'cuck', 'fag', 'cunt']
 gaming = ["gaming", "minecraft", "car soccer", "valorant", 'game']
 im = ['im', 'i\'m']
 
 
-async def commands(message):
+async def commands(message, client):
     msg = message.content
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
+    if message.content.startswith('thanks stonks'):
+        await message.channel.send('You are very welcome')
 
     await AutoBotResponseToMessages(message, msg)
 
@@ -45,6 +48,12 @@ async def commands(message):
         await message.channel.send(
             'The current price of ' + name + ' is ' + price + ' ' + currency
         )
+
+    if message.content.startswith('$ping'):
+        channel = client.get_channel(805601797422579742)
+        await channel.send("yo @everyone, check out this stock, **insert stock here** , making these money moves")
+
+
 
 
 async def GetTempForSpecifiedLocation(message):

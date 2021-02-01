@@ -20,6 +20,10 @@ async def on_message(message):
     #This await is needed to call to the commands file
     #The commands file will contain all of the possible keyword commands
     #and will not return anything
-    await botCommands.commands(message)
+    await botCommands.commands(message, client)
+
+
+
+
 
 client.run(SecurityTokenForBotCode)
